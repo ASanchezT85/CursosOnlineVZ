@@ -82,6 +82,11 @@ class Course extends Model
         return $this->belongsTo(Level::class)->select('id', 'name');
     }
 
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(Status::class)->select('id', 'name');
+    }
+
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class)->select('id', 'user_id', 'course_id', 'rating', 'comment', 'created_at');

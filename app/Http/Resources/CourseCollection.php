@@ -18,16 +18,18 @@ class CourseCollection extends ResourceCollection
             'data' => $this->collection->transform(function ($course){
                 return [
                     'id'                => $course->id,
-                    'teacher_id'        => $course->teacher_id,
-                    'category_id'       => $course->category_id,
-                    'level_id'          => $course->level_id,
+                    'teacher'           => $course->teacher->user->name,
+                    'category'          => $course->category->name,
+                    'level'             => __($course->level->name),
                     'name'              => $course->name,
                     'description'       => $course->description,
                     'slug'              => $course->slug,
-                    'picture'           => $course->picture,
-                    'status'            => $course->status,
+                    'picture'           => $course->pathAttachment(),
+                    'status'            => $course->status->name,
                     'previous_approved' => $course->previous_approved,
                     'previous_rejected' => $course->previous_rejected,
+                    'created'           => $course->created_at->format('Ymd'),
+                    'update'            => $course->updated_at->format('d/m/Y'),
                 ];
             })
         ];

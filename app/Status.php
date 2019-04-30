@@ -3,9 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Level extends Model
+class Status extends Model
 {
     /**
      * The attributes that are mass assignable.

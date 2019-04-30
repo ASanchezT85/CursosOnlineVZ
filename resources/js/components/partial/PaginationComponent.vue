@@ -2,10 +2,9 @@
     <nav aria-label="...">
         <ul class="pagination justify-content-center">
             <li class="page-item" :class="{ disabled: pagination.current_page <= 1 }">
-                <a class="page-link" @click.prevent="changePage(1)"  >First page</a>
-            </li>
-            <li class="page-item" :class="{ disabled: pagination.current_page <= 1 }">
-                <a class="page-link" @click.prevent="changePage(pagination.current_page - 1)">Previous</a>
+                <a class="page-link" @click.prevent="changePage(pagination.current_page - 1)">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
             </li>
 
             <li class="page-item" v-for="page in pages"  :key="page" :class="isCurrentPage(page) ? 'active' : ''">
@@ -15,13 +14,12 @@
             </li>
 
             <li class="page-item" :class="{ disabled: pagination.current_page >= pagination.last_page }">
-                <a class="page-link" @click.prevent="changePage(pagination.current_page + 1)">Next</a>
-            </li>
-            <li class="page-item" :class="{ disabled: pagination.current_page >= pagination.last_page }">
-                <a class="page-link" @click.prevent="changePage(pagination.last_page)">Last page</a>
+                <a class="page-link" @click.prevent="changePage(pagination.current_page + 1)">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
             </li>
         </ul>
-    </nav>
+    </nav>    
 </template>
 
 <script>

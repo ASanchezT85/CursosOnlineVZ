@@ -2,9 +2,9 @@
 
 use Faker\Generator as Faker;
 
-use App\Level;
+use App\Status;
 
-$factory->define(Level::class, function (Faker $faker) {
+$factory->define(Status::class, function (Faker $faker) {
     $name = $faker->word;
     return [
         'name' => $name,

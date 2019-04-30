@@ -19,4 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Courses
 Route::apiResource('courses','Admin\CourseController');
-Route::get('search/coursess/{field}/{query}','Admin\CourseController@search');
+Route::get('search/courses/{field}/{query}','Admin\CourseController@search');

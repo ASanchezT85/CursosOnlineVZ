@@ -2,55 +2,61 @@
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 mb-5 border">
-                    <h5 class="text-center mb-2 mt-4">Tabla de Curos</h5>
-                    <section class="py-4">
-                        <div class="container">
-                            <div class="d-block d-md-flex p-4 p-sm-5 all-text-white border-radius-3">
-                                <div class="align-self-center text-center text-md-left">
-                                    <select v-model="queryFiled" class="form-control" id="fileds">
-                                        <option value="name">Name</option>
-                                        <option value="category">Category</option>
-                                        <option value="teacher">Teacher</option>
-                                        <option value="status">Status</option>
-                                    </select>
-                                </div>
-                                <div class="mt-3 mt-md-0 text-center text-md-right ml-md-auto align-self-center">
-                                    <input v-model="query" type="text" class="form-control" placeholder="Search">
-                                </div>
+                <div class="col-12 mb-5">
+                    <h5 class="text-center mb-4 mt-4">Tabla de Curos</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-info" @click="create">
+                                Agregar
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <button type="button" class="btn btn-primary" @click="reload">
+                                Recargar
+                                <i class="fas fa-sync"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <select v-model="queryFiled" class="custom-select select-big mb-3">
+                                    <option value="name">Name</option>
+                                    <option value="category">Category</option>
+                                    <option value="teacher">Teacher</option>
+                                    <option value="status">Status</option>
+                                </select>
                             </div>
                         </div>
-                    </section>
+                        <div class="col-md-6">
+                            <input v-model="query" class="form-control" type="text" placeholder="Search">
+                        </div>
+                    </div>
                     <div class="table-responsive-sm">
                         <table class="table table-lg table-noborder table-striped">
                             <thead class="all-text-white bg-grad">
                                 <tr>
                                     <th scope="col" class="text-center">#</th>
-                                    <th scope="col" class="text-center">Teacher</th>
-                                    <th scope="col" class="text-center">Category</th>
-                                    <th scope="col" class="text-center">Level</th>
-                                    <th scope="col" class="text-center">Name</th>
-                                    <th scope="col" class="text-center">Status</th>
+                                    <th scope="col" class="text-center">Profesor</th>
+                                    <th scope="col" class="text-center">Categoría</th>
+                                    <th scope="col" class="text-center">Nombre</th>
+                                    <th scope="col" class="text-center">Estado</th>
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-show="courses.length" v-for="(course, index) in courses" :key="course.id">
                                 <th scope="row" class="text-center">{{ index + 1 }}</th>
-                                <td class="text-center">{{ course.teacher_id}}</td>
-                                <td class="text-center">{{ course.category_id }}</td>
-                                <td class="text-center">{{ course.level_id }}</td>
+                                <td>{{ course.teacher}}</td>
+                                <td class="text-center">{{ course.category }}</td>
                                 <td>{{ course.name }}</td>
                                 <td class="text-center">{{ course.status }}</td>                    
                                 <td class="text-center">
-                                    <button type="button" @click="show(course)" class="btn btn-info btn-sm">
-                                        <i class="fas fa-eye"></i>
+                                    <button class="btn btn-info btn-round zoom-on-hover mr-3" @click="show(course)">
+                                        <i class="far fa-eye"></i>
                                     </button>
-                                    <button type="button" @click="edit(course)" class="btn btn-primary btn-sm">
-                                        <i class="fas fa-edit"></i>
+                                    <button class="btn btn-primary btn-round zoom-on-hover mr-3" @click="edit(course)">
+                                        <i class="far fa-edit"></i>
                                     </button>
-                                    <button type="button" @click="destroy(course)" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash-alt"></i>
+                                    <button class="btn btn-danger btn-round zoom-on-hover mr-3" @click="destroy(course)">
+                                        <i class="far fa-trash-alt"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -67,41 +73,6 @@
                             :offset="5"
                             @paginate="query === '' ? getData() : searchData()"
                         ></pagination>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Customers</h4>
-                            <div class="card-tools" style="position: absolute;right: 1rem;top: .5rem;">
-                                <button type="button" class="btn btn-info" @click="create">
-                                    Add New
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                                <button type="button" class="btn btn-primary" @click="reload">
-                                    Reload
-                                    <i class="fas fa-sync"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <strong>Search By :</strong>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <select v-model="queryFiled" class="form-control" id="fileds">
-                                            <option value="name">Name</option>
-                                            <option value="category">Category</option>
-                                            <option value="teacher">Teacher</option>
-                                            <option value="status">Status</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-7">
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -291,13 +262,27 @@
             </div>
 
             <!-- Modal -->
-            <b-modal ref="showModal" size="lg" ok-only>
+            <b-modal ref="showModal" hide-footer>
                 <template slot="modal-title">
-                    {{ form.name }}
+                    <span class="pre-title">{{ form.name }}</span>
                 </template>
                 <template slot="default" slot-scope="{ hide }">
-                    <p>Modal Body with button</p>
-                    <b-button @click="hide()">Hide Modal</b-button>
+                    <div class="blog bg-light">
+                        <div class="post">
+                            <img :src="form.picture" alt="">
+                            <div class="post-info">
+                                <span class="post-tag bg-grad text-white mb-3 clearfix">
+                                    {{ form.level }}
+                                </span>
+                                <span class="post-tag bg-grad text-white mb-3 clearfix" style="top: 60px !important;">{{ form.category }}</span>
+                                <div class="post-author"><strong>{{ form.teacher }}</strong></div>,
+                                <div class="post-time"> {{ since(form.created) }}</div>
+                                <br>
+                                <div class="post-author"><strong>Estado:</strong></div>,
+                                <div class="post-time">{{ form.status }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </template>
             </b-modal>
 
@@ -309,29 +294,33 @@
 
 <script>
 import axios from 'axios'
+import moment from 'moment'
+moment.locale('es');
 export default {
   data() {
     return {
-      editMode: false,
-      query: "",
-      queryFiled: "name",
-      courses: [],
-      form: new Form({
-        id: "",
-        teacher: "",
-        category: "",
-        level: "",
-        name: "",
-        description: "",
-        slug: "",
-        picture: "",
-        status: "",
-        approved: "",
-        rejected: ""
-      }),
-      pagination: {
-        current_page: 1
-      }
+        editMode: false,
+        query: "",
+        queryFiled: "name",
+        courses: [],
+        form: new Form({
+            id: "",
+            teacher: "",
+            category: "",
+            level: "",
+            name: "",
+            description: "",
+            slug: "",
+            picture: "",
+            status: "",
+            approved: "",
+            rejected: "",
+            created: "",
+            update: ""
+        }),
+        pagination: {
+            current_page: 1
+        }
     };
   },
   watch: {
@@ -500,6 +489,9 @@ export default {
           ]
         }
       );
+    },
+    since: function(d){
+        return moment(d).fromNow();
     }
   }
 };
