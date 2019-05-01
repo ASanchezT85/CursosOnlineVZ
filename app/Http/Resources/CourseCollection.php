@@ -23,13 +23,15 @@ class CourseCollection extends ResourceCollection
                     'level'             => __($course->level->name),
                     'name'              => $course->name,
                     'description'       => $course->description,
+                    'amount'            => $course->amount,
                     'slug'              => $course->slug,
                     'picture'           => $course->pathAttachment(),
                     'status'            => $course->status->name,
+                    'status_id'         => $course->status->id,
                     'previous_approved' => $course->previous_approved,
                     'previous_rejected' => $course->previous_rejected,
                     'created'           => $course->created_at->format('Ymd'),
-                    'update'            => $course->updated_at->format('d/m/Y'),
+                    'update'            => $course->updated_at->format('Ymd'),
                 ];
             })
         ];

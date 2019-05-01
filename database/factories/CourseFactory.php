@@ -11,14 +11,17 @@ use App\Status;
 $factory->define(Course::class, function (Faker $faker) {
     $name = $faker->sentence;
     $status = Status::all()->random()->id;
+    $type = $faker->randomElement(['abstract', 'animals', 'business', 'cats', 'city', 'food', 'nightlife',
+            'fashion', 'people', 'nature', 'sports', 'technics', 'transport']);
     return [
         'teacher_id' => Teacher::all()->random()->id,
         'category_id' => Category::all()->random()->id,
         'level_id' => Level::all()->random()->id,
-        'name' => $name,
-        'slug' => str_slug($name, '-'),
+        'name' => $name,        
         'description' => $faker->paragraph,
-        'picture' => \Faker\Provider\Image::image(storage_path() . '/app/public/courses', 600, 350, 'business', false),
+        'amount' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1.99, $max = 99.99),
+        'slug' => str_slug($name, '-'),
+        'picture' => \Faker\Provider\Image::image(storage_path() . '/app/public/courses', 500, 250, $type, false),
         'status_id' => $status,
         'previous_approved' => $status !== 1 ? false : true,
         'previous_rejected' => $status === 3 ? true : false,

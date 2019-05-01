@@ -22,6 +22,7 @@ class CreateCoursesTable extends Migration
             $table->unsignedInteger('level_id');
             $table->string('name');
             $table->text('description');
+            $table->float('amount', 8, 2);
             $table->string('slug');
             $table->string('picture')->nullable();
             $table->unsignedInteger('status_id');

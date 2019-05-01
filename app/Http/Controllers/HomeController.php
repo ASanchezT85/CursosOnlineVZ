@@ -23,7 +23,7 @@ class HomeController extends Controller
 
         $courses = Course::withCount(['students'])
             ->with('category', 'teacher', 'reviews')
-            ->where('status', Course::PUBLISHED)
+            ->where('status_id', Course::PUBLISHED)
             ->latest()
             ->paginate(9);
 
@@ -43,7 +43,7 @@ class HomeController extends Controller
 
         $courses = Course::withCount(['students'])
             ->with('category', 'teacher', 'reviews')
-            ->where('status', Course::PUBLISHED)
+            ->where('status_id', Course::PUBLISHED)
             ->latest()
             ->paginate(9);
 

@@ -15,7 +15,7 @@ class CoursesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Course::class, 50)
+        factory(Course::class, 100)
             ->create()
             ->each(function (Course $course){
                 $course->goals()->saveMany(factory(Goal::class, 2)->create());

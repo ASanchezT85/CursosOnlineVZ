@@ -35,29 +35,25 @@
                                 <tr>
                                     <th scope="col" class="text-center">#</th>
                                     <th scope="col" class="text-center">Profesor</th>
+                                    <th scope="col" class="text-center">Categoría</th>
                                     <th scope="col" class="text-center">Nombre</th>
-                                    <th scope="col" class="text-center">Costo</th>
-                                    <th scope="col" class="text-center" colspan="3">Acciones</th>
+                                    <th scope="col" class="text-center">Estado</th>
+                                    <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-show="courses.length" v-for="(course, index) in courses" :key="course.id">
                                 <th scope="row" class="text-center">{{ index + 1 }}</th>
                                 <td>{{ course.teacher}}</td>
+                                <td class="text-center">{{ course.category }}</td>
                                 <td>{{ course.name }}</td>
-                                <td class="text-center">{{ course.amount }}</td>
-                                <td class="text-center">
-                                    <form @submit.prevent="update()" @keydown="form.onKeydown($event)">
-                                        <button 
-                                            :disabled="form.busy" type="submit"
-                                            :class="(course.status_id === 1) ? 'btn btn-primary' : 'btn btn-danger'"
-                                            style="min-width: 100px">
-                                            {{ (course.status_id === 1) ? 'Aprobar' : 'Rechazar' }}
-                                        </button>
-                                    </form>
+                                <td class="text-center">{{ course.status }}</td>                    
                                 <td class="text-center">
                                     <button class="btn btn-info btn-round zoom-on-hover mr-3" @click="show(course)">
                                         <i class="far fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-primary btn-round zoom-on-hover mr-3" @click="edit(course)">
+                                        <i class="far fa-edit"></i>
                                     </button>
                                     <button class="btn btn-danger btn-round zoom-on-hover mr-3" @click="destroy(course)">
                                         <i class="far fa-trash-alt"></i>
@@ -227,6 +223,28 @@
                 </div>
               </div>
             </div>
+
+            <b-modal ref="courseModalLong" hide-footer>
+                <template slot="modal-title">
+                    <span class="pre-title">{{ editMode ? "Editar" : "Agregar nuevo" }} {{ form.name }}</span>
+                </template>
+                <template slot="default" slot-scope="{ hide }">
+                    <form ref="form" @submit.stop.prevent="handleSubmit">
+                        <b-form-group
+                            :state="validation.nameCourse" 
+                            label="Nombre" 
+                            label-for="name-input" 
+                            invalid-feedback="Nombre es requerido">
+                            <b-form-input 
+                                id="name-input" 
+                                v-model="form.name"
+                                :state="validation.nameCourse"
+                                required>
+                            </b-form-input>
+                        </b-form-group>
+                    </form>
+                </template>
+            </b-modal>
             
             <!-- showModal -->
             <b-modal ref="showModal" hide-footer>
@@ -287,12 +305,14 @@ export default {
             approved: "",
             rejected: "",
             created: "",
-            update: "",
-            status_id: ""
+            update: ""
         }),
         pagination: {
             current_page: 1
         },
+        validation:{
+            nameCourse: ""
+        }
     };
   },
   watch: {

@@ -8,16 +8,21 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
 import { Form, HasError, AlertError } from 'vform'
 import VueProgressBar from 'vue-progressbar'
+
 import Snotify, { SnotifyPosition } from 'vue-snotify'
+import 'vue-snotify/styles/material.css'
 window.Form = Form
+
 const SnotifyOptions = {
     toast: {
         position: SnotifyPosition.rightTop
     }
 }
-Vue.use(Snotify, SnotifyOptions)
+Vue.use(Snotify, SnotifyOptions);
+
 const VueProgressBarOptions = {
     color: '#50d38a',
     failedColor: '#87111d',

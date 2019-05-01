@@ -63,7 +63,7 @@
              @hidden="resetModal"
              @ok="handleOk">
       <form ref="form" @submit.stop.prevent="handleSubmit">
-        <b-form-group :state="nameState" label="Name" label-for="name-input" invalid-feedback="Nombre es requerido">
+        <b-form-group :state="nameState" label="Nombre" label-for="name-input" invalid-feedback="Nombre es requerido">
             <b-form-input id="name-input" v-model="nameCategory" :state="nameState" required></b-form-input>
         </b-form-group>
         <b-form-file v-model="file" 
