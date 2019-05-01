@@ -74,7 +74,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        return new CourseResource(Customer::findOrFail($id));
+        return new CourseResource(Course::findOrFail($id));
     }
 
     /**
@@ -98,21 +98,11 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'teacher_id'        => 'required|numeric',
-            'category_id'       => 'required|numeric',
-            'level_id'          => 'required|numeric',
-            'name'              => 'required',
-            'slug'              => 'required|unique:courses,slug,'.$id,
-            'picture'           => 'required',
+            'status_id'         => 'required|numeric',
         ]);
 
         $course = Course::findOrfail($id);
-        $course->teacher_id = $request->teacher_id;
-        $course->category_id = $request->category_id;
-        $course->level_id = $request->level_id;
-        $course->name = $request->name;
-        $course->slug = $request->slug;
-        $course->picture = $request->picture;
+        $course->status_id = $request->status_id;
         $course->save();
 
         return new CourseResource($course);

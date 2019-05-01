@@ -6,10 +6,6 @@
                     <h5 class="text-center mb-4 mt-4">Tabla de Curos</h5>
                     <div class="row">
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-info" @click="create">
-                                Agregar
-                                <i class="fas fa-plus"></i>
-                            </button>
                             <button type="button" class="btn btn-primary" @click="reload">
                                 Recargar
                                 <i class="fas fa-sync"></i>
@@ -47,7 +43,17 @@
                                 <td>{{ course.name }}</td>
                                 <td class="text-center">{{ course.amount }}</td>
                                 <td class="text-center">
-                                    <form @submit.prevent="update()" @keydown="form.onKeydown($event)">
+                                    <form @submit.prevent="update()">
+                                        <input
+                                            v-if="course.status_id === 1"
+                                            v-model="form.status_id=2"
+                                            name="status_id"
+                                            type="hidden">
+                                        <input
+                                            v-else
+                                            v-model="form.status_id=3"
+                                            name="status_id"
+                                            type="hidden">
                                         <button 
                                             :disabled="form.busy" type="submit"
                                             :class="(course.status_id === 1) ? 'btn btn-primary' : 'btn btn-danger'"
@@ -82,152 +88,7 @@
             </div>
         </div>
 
-        <div class="row">
-            
-            <!-- Modal -->
-            <div
-              class="modal fade"
-              id="courseModalLong"
-              ref="courseModalLong"
-              tabindex="-1"
-              role="dialog"
-              aria-labelledby="courseModalLongTitle"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5
-                      class="modal-title"
-                      id="courseModalLongTitle"
-                    >{{ editMode ? "Edit" : "Add New" }} Course</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <form @submit.prevent="editMode ? update() : store()" @keydown="form.onKeydown($event)">
-                    <div class="modal-body">
-                      <alert-error :form="form"></alert-error>
-                      <div class="form-group">
-                        <label>Teacher</label>
-                        <input
-                          v-model="form.teacher"
-                          type="text"
-                          name="teacher"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.has('teacher') }"
-                        >
-                        <has-error :form="form" field="teacher"></has-error>
-                      </div>
-                      <div class="form-group">
-                        <label>Category</label>
-                        <input
-                          v-model="form.category"
-                          type="text"
-                          name="category"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.has('category') }"
-                        >
-                        <has-error :form="form" field="category"></has-error>
-                      </div>
-                      <div class="form-group">
-                        <label>Level</label>
-                        <input
-                          v-model="form.level"
-                          type="text"
-                          name="level"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.has('level') }"
-                        >
-                        <has-error :form="form" field="level"></has-error>
-                      </div>
-                      <div class="form-group">
-                        <label>Name</label>
-                        <input
-                          v-model="form.name"
-                          type="text"
-                          name="name"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.has('name') }"
-                        >
-                        <has-error :form="form" field="name"></has-error>
-                      </div>
-                      <div class="form-group">
-                        <label>Slug</label>
-                        <input
-                          v-model="form.slug"
-                          type="text"
-                          name="slug"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.has('slug') }"
-                        >
-                        <has-error :form="form" field="slug"></has-error>
-                      </div>
-
-                      <div class="form-group">
-                        <label>Picture</label>
-                        <input
-                          v-model="form.picture"
-                          type="text"
-                          name="picture"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.has('picture') }"
-                        >
-                        <has-error :form="form" field="picture"></has-error>
-                      </div>
-                      <div class="form-group">
-                        <label>Status</label>
-                        <input
-                          v-model="form.status"
-                          type="text"
-                          name="status"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.has('status') }"
-                        >
-                        <has-error :form="form" field="status"></has-error>
-                      </div>
-                      <div class="form-group">
-                        <label>Address</label>
-                        <textarea
-                          v-model="form.address"
-                          name="address"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.has('address') }"
-                        ></textarea>
-                        <has-error :form="form" field="address"></has-error>
-                      </div>
-                      <div class="form-group">
-                        <label>Approved</label>
-                        <input
-                          v-model="form.approved"
-                          type="number"
-                          name="approved"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.has('approved') }"
-                        >
-                        <has-error :form="form" field="approved"></has-error>
-                      </div>
-                       <div class="form-group">
-                        <label>Rejected</label>
-                        <input
-                          v-model="form.rejected"
-                          type="number"
-                          name="rejected"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.has('rejected') }"
-                        >
-                        <has-error :form="form" field="rejected"></has-error>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button :disabled="form.busy" type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            
+        <div class="row">            
             <!-- showModal -->
             <b-modal ref="showModal" hide-footer>
                 <template slot="modal-title">
@@ -267,200 +128,164 @@ import axios from 'axios'
 import moment from 'moment'
 moment.locale('es');
 export default {
-  data() {
-    return {
-        editMode: false,
-        query: "",
-        queryFiled: "name",
-        courses: [],
-        form: new Form({
-            id: "",
-            teacher: "",
-            category: "",
-            level: "",
-            name: "",
-            description: "",
-            amount: "",
-            slug: "",
-            picture: "",
-            status: "",
-            approved: "",
-            rejected: "",
-            created: "",
-            update: "",
-            status_id: ""
-        }),
-        pagination: {
-            current_page: 1
-        },
-    };
-  },
-  watch: {
-    query: function(newQ, old) {
-      if (newQ === "") {
-        this.getData();
-      } else {
-        this.searchData();
-      }
-    }
-  },
-  mounted() {
-    this.getData();
-  },
-  methods: {
-    getData() {
-      this.$Progress.start();
-      axios
-        .get("/api/courses?page=" + this.pagination.current_page)
-        .then(response => {
-          this.courses = response.data.data;
-          this.pagination = response.data.meta;
-          this.$Progress.finish();
-        })
-        .catch(e => {
-          console.log(e);
-          this.$Progress.fail();
-        });
-    },
-    searchData() {
-      this.$Progress.start();
-      axios
-        .get(
-          "/api/search/courses/" +
-            this.queryFiled +
-            "/" +
-            this.query +
-            "?page=" +
-            this.pagination.current_page
-        )
-        .then(response => {
-          this.courses = response.data.data;
-          this.pagination = response.data.meta;
-          this.$Progress.finish();
-        })
-        .catch(e => {
-          console.log(e);
-          this.$Progress.fail();
-        });
-    },
-    reload() {
-      this.getData();
-      this.query = "";
-      this.queryFiled = "name";
-      this.$snotify.success("Data Successfully Refresh", "Success");
-    },
-    create() {
-      this.editMode = false;
-      this.form.reset();
-      this.form.clear();
-      this.$refs.courseModalLong.show();
-    },
-    store() {
-      this.$Progress.start();
-      this.form.busy = true;
-      this.form
-        .post("/api/courses")
-        .then(response => {
-          this.getData();
-          $("#courseModalLong").modal("hide");
-          if (this.form.successful) {
-            this.$Progress.finish();
-            this.$snotify.success("Customer Successfully Saved", "Success");
-          } else {
-            this.$Progress.fail();
-            this.$snotify.error(
-              "Something went wrong try again later.",
-              "Error"
-            );
-          }
-        })
-        .catch(e => {
-          this.$Progress.fail();
-          console.log(e);
-        });
-    },
-    show(course) {
-      this.form.reset();
-      this.form.fill(course);
-      this.$refs.showModal.show();
-    },
-    edit(course) {
-        this.editMode = true;
-        this.form.reset();
-        this.form.clear();
-        this.form.fill(course);
-        this.$refs.courseModalLong.show();
-        //$("#courseModalLong").modal("show");
-    },
-    update() {
-      this.$Progress.start();
-      this.form.busy = true;
-      this.form
-        .put("/api/courses/" + this.form.id)
-        .then(response => {
-          this.getData();
-          $("#courseModalLong").modal("hide");
-          if (this.form.successful) {
-            this.$Progress.finish();
-            this.$snotify.success("Customer Successfully Updated", "Success");
-          } else {
-            this.$Progress.fail();
-            this.$snotify.error(
-              "Something went wrong try again later.",
-              "Error"
-            );
-          }
-        })
-        .catch(e => {
-          this.$Progress.fail();
-          console.log(e);
-        });
-    },
-    destroy(course) {
-        this.$snotify.clear();
-        this.$snotify.confirm(
-            "¡No podrás recuperar estos datos!",
-            "¿Estás seguro?",
-            {
-                showProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                buttons: [
-                    {
-                        text: "Si",
-                        action: toast => {
-                            this.$snotify.remove(toast.id);
-                            this.$Progress.start();
-                            axios.delete("/api/courses/" + course.id)
-                                 .then(response => {
-                                    this.getData();
-                                    this.$Progress.finish();
-                                    this.$snotify.success(
-                                        "Customer Successfully Deleted",
-                                        "Success"
-                                    );
-                                }).catch(e => {
-                                    this.$Progress.fail();
-                                    console.log(e);
-                                }
-                            );
-                        },
-                        bold: true
-                    },
-                    {
-                        text: "No",
-                        action: toast => {
-                            this.$snotify.remove(toast.id);
-                        },
-                        bold: true
-                    }
-                ]
+    data() {
+        return {
+            editMode: false,
+            query: "",
+            queryFiled: "name",
+            courses: [],
+            form: new Form({
+                id: "",
+                teacher: "",
+                category: "",
+                level: "",
+                name: "",
+                description: "",
+                amount: "",
+                slug: "",
+                picture: "",
+                status: "",
+                approved: "",
+                rejected: "",
+                created: "",
+                update: "",
+                status_id: ""
+            }),
+            pagination: {
+                current_page: 1
+            },
+        };
+     },
+    watch: {
+        query: function(newQ, old) {
+            if (newQ === "") {
+                this.getData();
+            } else {
+                this.searchData();
             }
-        );
+        }
     },
-    since: function(d){
-        return moment(d).fromNow();
+    mounted() {
+        this.getData();
+    },
+    methods: {
+        getData() {
+            this.$Progress.start();
+            axios.get("/api/courses?page=" + this.pagination.current_page)
+                 .then(response => {
+                    this.courses = response.data.data;
+                    this.pagination = response.data.meta;
+                    this.$Progress.finish();
+            })
+            .catch(e => {
+                console.log(e);
+                this.$Progress.fail();
+            });
+        },
+        searchData() {
+            this.$Progress.start();
+            axios.get(
+                "/api/search/courses/" +
+                this.queryFiled +
+                "/" +
+                this.query +
+                "?page=" +
+                this.pagination.current_page
+            ).then(response => {
+                this.courses = response.data.data;
+                this.pagination = response.data.meta;
+                this.$Progress.finish();
+            }).catch(e => {
+                console.log(e);
+                this.$Progress.fail();
+            });
+        },
+        reload() {
+            this.getData();
+            this.query = "";
+            this.queryFiled = "name";
+            this.$snotify.success("Los datos se actualizan con éxito", "Éxito");
+        },
+        show(course) {
+            this.form.reset();
+            this.form.fill(course);
+            this.$refs.showModal.show();
+        },
+        edit(course) {
+            this.editMode = true;
+            this.form.reset();
+            this.form.clear();
+            this.form.fill(course);
+            this.$refs.courseModalLong.show();
+        },
+        update() {
+            this.$Progress.start();
+            this.form.busy = true;
+            this.form
+                .put("/api/courses/" + this.form.id)
+                .then(response => {
+                    this.getData();
+                    //$("#courseModalLong").modal("hide");
+                    if (this.form.successful) {
+                        this.$Progress.finish();
+                        this.$snotify.success("Customer Successfully Updated", "Success");
+                    } else {
+                        this.$Progress.fail();
+                        this.$snotify.error(
+                            "Something went wrong try again later.",
+                            "Error"
+                        );
+                    }
+                }).catch(e => {
+                    this.$Progress.fail();
+                    console.log(e);
+            });
+        },
+        destroy(course) {
+            this.$snotify.clear();
+            this.$snotify.confirm(
+                "¡No podrás recuperar estos datos!",
+                "¿Estás seguro?",
+                {
+                    showProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    buttons: [
+                        {
+                            text: "Si",
+                            action: toast => {
+                                this.$snotify.remove(toast.id);
+                                this.$Progress.start();
+                                axios.delete("/api/courses/" + course.id)
+                                    .then(response => {
+                                        this.getData();
+                                        this.$Progress.finish();
+                                        this.$snotify.success(
+                                            "Customer Successfully Deleted",
+                                            "Success"
+                                        );
+                                    }).catch(e => {
+                                        this.$Progress.fail();
+                                        console.log(e);
+                                    }
+                                );
+                            },
+                            bold: true
+                        },
+                        {
+                            text: "No",
+                            action: toast => {
+                                this.$snotify.remove(toast.id);
+                            },
+                            bold: true
+                        }
+                    ]
+                }
+            );
+        },
+        since: function(d){
+            return moment(d).fromNow();
+        }
     }
-  }
 };
 </script>
