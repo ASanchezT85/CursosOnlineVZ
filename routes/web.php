@@ -41,6 +41,8 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::get('list-categories', 'Admin\CategoryController@getCategories');
         //Courses
         Route::get('/courses','CourseController')->name('courses');
+        //Status
+        Route::get('/others','OtherController')->name('others');
     });
     
     

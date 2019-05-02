@@ -13,6 +13,7 @@
                 <li><a class="dropdown-item" href="{{ route('courses') }}">{{ __('Courses') }}</a></li>
                 <li> <a class="dropdown-item" href="#">{{ __('Students') }}</a> </li>
                 <li> <a class="dropdown-item" href="#">{{ __('Teacher') }}</a> </li>
+                <li> <a class="dropdown-item" href="{{ route('others') }}">{{ __('Others') }}</a> </li>
             </ul>
             <ul class="list-unstyled w-100 w-sm-50 pr-0 pr-lg-5">
                 <li class="dropdown-header">{{ __('User control') }}</li>

@@ -82,6 +82,10 @@ Vue.component('categories', Categories);
 import Category from './components/CategoryComponent';
 Vue.component('category', Category);
 
+//Componentes listos para presentarse
+import Status from './components/StatusComponent';
+Vue.component('status-component', Status);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -27,13 +27,14 @@
                     </div>
                     <div class="table-responsive-sm">
                         <table class="table table-lg table-noborder table-striped">
-                            <thead class="all-text-white bg-grad">
+                            <thead class="all-text-white bg-primary">
                                 <tr>
                                     <th scope="col" class="text-center">#</th>
                                     <th scope="col" class="text-center">Profesor</th>
                                     <th scope="col" class="text-center">Nombre</th>
                                     <th scope="col" class="text-center">Costo</th>
-                                    <th scope="col" class="text-center" colspan="3">Acciones</th>
+                                    <th scope="col" class="text-center" colspan="2">Acciones</th>
+                                    <th scope="col" class="text-center">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,6 +43,14 @@
                                 <td>{{ course.teacher}}</td>
                                 <td>{{ course.name }}</td>
                                 <td class="text-center">{{ course.amount }}</td>
+                                <td class="text-center">
+                                    <button class="btn btn-info" @click="show(course)" style="min-width: 100px">
+                                        Detaller
+                                    </button>
+                                    <button class="btn btn-danger" @click="destroy(course)" style="min-width: 100px">
+                                        Eliminar
+                                    </button>
+                                </td>
                                 <td class="text-center">
                                     <form @submit.prevent="update()">
                                         <input
@@ -56,23 +65,16 @@
                                             type="hidden">
                                         <button 
                                             :disabled="form.busy" type="submit"
-                                            :class="(course.status_id === 1) ? 'btn btn-primary' : 'btn btn-danger'"
+                                            :class="(course.status_id === 1) ? 'btn btn-primary' : 'btn btn-warning'"
                                             style="min-width: 100px">
                                             {{ (course.status_id === 1) ? 'Aprobar' : 'Rechazar' }}
                                         </button>
                                     </form>
-                                <td class="text-center">
-                                    <button class="btn btn-info btn-round zoom-on-hover mr-3" @click="show(course)">
-                                        <i class="far fa-eye"></i>
-                                    </button>
-                                    <button class="btn btn-danger btn-round zoom-on-hover mr-3" @click="destroy(course)">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button>
                                 </td>
                             </tr>
                             <tr v-show="!courses.length">
                                 <td colspan="7">
-                                    <div class="alert alert-danger" role="alert">Sorry :( No data found.</div>
+                                    <div class="alert alert-danger" role="alert">Lo sentimos :( No se encontraron datos.</div>
                                 </td>
                             </tr>
                             </tbody>
@@ -81,7 +83,7 @@
                             v-if="pagination.last_page > 1"
                             :pagination="pagination"
                             :offset="5"
-                            @paginate="query === '' ? getData() : searchData()"
+                            @paginate="query === '' ? getCoursesData() : searchData()"
                         ></pagination>
                     </div>
                 </div>
@@ -159,17 +161,17 @@ export default {
     watch: {
         query: function(newQ, old) {
             if (newQ === "") {
-                this.getData();
+                this.getCoursesData();
             } else {
                 this.searchData();
             }
         }
     },
     mounted() {
-        this.getData();
+        this.getCoursesData();
     },
     methods: {
-        getData() {
+        getCoursesData() {
             this.$Progress.start();
             axios.get("/api/courses?page=" + this.pagination.current_page)
                  .then(response => {
@@ -201,7 +203,7 @@ export default {
             });
         },
         reload() {
-            this.getData();
+            this.getCoursesData();
             this.query = "";
             this.queryFiled = "name";
             this.$snotify.success("Los datos se actualizan con éxito", "Éxito");
@@ -224,7 +226,7 @@ export default {
             this.form
                 .put("/api/courses/" + this.form.id)
                 .then(response => {
-                    this.getData();
+                    this.getCoursesData();
                     //$("#courseModalLong").modal("hide");
                     if (this.form.successful) {
                         this.$Progress.finish();
@@ -258,7 +260,7 @@ export default {
                                 this.$Progress.start();
                                 axios.delete("/api/courses/" + course.id)
                                     .then(response => {
-                                        this.getData();
+                                        this.getCoursesData();
                                         this.$Progress.finish();
                                         this.$snotify.success(
                                             "Customer Successfully Deleted",

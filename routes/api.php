@@ -17,6 +17,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Courses
+//Course
 Route::apiResource('courses','Admin\CourseController');
 Route::get('search/courses/{field}/{query}','Admin\CourseController@search');
+
+//Category
+Route::apiResource('categories','Api\CategoryController');
+Route::get('search/categories/{field}/{query}','Api\CategoryController@search');
+
+//Status
+Route::apiResource('statuses','Api\StatusController');
+Route::get('search/statuses/{field}/{query}','Api\StatusController@search');
