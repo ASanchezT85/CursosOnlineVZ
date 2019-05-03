@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Category;
+use App\Helpers\Helper;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryCollection;
 
@@ -18,12 +19,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return new CategoryCollection(Category::orderBy('name','ASC')->paginate(10));
+        return new CategoryCollection(Category::orderBy('name','ASC')->paginate(8));
     }
 
     public function search($field, $query)
     {
-        return new CategoryCollection(Category::where($field,'LIKE',"%$query%")->latest()->paginate(10));
+        return new CategoryCollection(Category::where($field,'LIKE',"%$query%")->latest()->paginate(8));
     }
 
     /**
@@ -46,15 +47,17 @@ class CategoryController extends Controller
     {
         $this->validate($request,[
             'name'              => 'required',
-            'description'       => 'required',
             'picture'           => 'required|mimes:jpeg,png',
         ]);
 
-        $category = new Category();
-        $category->name = $request->name;
-        $category->description = $request->description;
-        $category->picture = $request->picture;
-        $category->save();
+        $category = Category::create($request->all());
+
+        if($request->file('picture')){
+            //Se crea el path y se sube el archivo al servidor
+            $path = Helper::uploadFile('picture', 'public/categories');
+            //Se actualiza el campo en la DB con la ruta de la image ($path)
+            $category->fill(['picture' => $path])->save();
+        }
 
         return new CategoryResource($category);
     }
@@ -95,10 +98,17 @@ class CategoryController extends Controller
         ]);
 
         $category = Category::findOrfail($id);
-        $category->name = $request->name;
-        $category->description = $request->description;
-        $category->picture = $request->picture;
-        $category->save();
+
+        $category->update($request->only(['name']));
+
+        if($request->file('picture')){
+            //Eliminamos la imagen anterior del servidor
+            \Storage::delete('public/categories/' . $category->picture);
+            //Se crea el path y se sube el archivo al servidor
+            $path = Helper::uploadFile('picture', 'public/categories');
+            //Se actualiza el campo en la DB con la ruta de la image ($path)
+            $category->fill(['picture' => $path])->save();
+        }
 
         return new CategoryResource($category);
     }
@@ -112,7 +122,11 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrfail($id);
+        //Eliminamos la imagen del servidor
+        \Storage::delete('public/categories/' . $category->picture);
+        
         $category->delete();
+
         return new CategoryResource($category);
     }
 }

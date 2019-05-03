@@ -14,6 +14,6 @@ class CategoryController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.categories.index');
+        return view('admin.categories');
     }
 }

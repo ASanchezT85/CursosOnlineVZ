@@ -37,8 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::middleware(['permission:settings'])->group(function() {
 
         //Category
-        Route::resource('categories', 'Admin\CategoryController');
-        Route::get('list-categories', 'Admin\CategoryController@getCategories');
+        Route::get('/categories', 'CategoryController')->name('categories');
         //Courses
         Route::get('/courses','CourseController')->name('courses');
         //Status

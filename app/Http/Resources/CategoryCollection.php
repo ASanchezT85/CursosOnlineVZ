@@ -19,11 +19,9 @@ class CategoryCollection extends ResourceCollection
                 return [
                     'id'                => $category->id,
                     'name'              => $category->name,
-                    'slug'              => $category->slug,
-                    'description'       => $category->description,
-                    'picture'           => $category->picture,
+                    'picture'           => $category->pathAttachment(),
                     'created'           => $category->created_at->format('Ymd'),
-                    'update'            => $category->updated_at->format('Ymd'),
+                    'updated'            => $category->updated_at->format('Ymd'),
                 ];
             })
         ];

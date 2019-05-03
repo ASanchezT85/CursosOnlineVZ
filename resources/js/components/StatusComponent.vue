@@ -50,12 +50,6 @@
                                     <ul class="social-icons si-colored-on-hover">
                                         <li class="social-icons-item social-facebook">
                                             <a class="social-icons-link" href="#"
-                                               v-on:click.prevent="show(status)">
-                                                <i class="far fa-eye"></i>
-                                            </a>
-                                        </li>
-                                        <li class="social-icons-item social-facebook">
-                                            <a class="social-icons-link" href="#"
                                                v-on:click.prevent="edit(status)">
                                                 <i class="far fa-edit"></i>
                                             </a>
@@ -120,30 +114,6 @@
                 </div>
             </div>
 
-            <!-- Modal Show-->
-            <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="showModalLabel">{{ form.name }}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <strong>Descripción:</strong>
-                            <p>{{ form.description }}</p>
-                            <br>
-                            <span>
-                                <i class="far fa-share-square"></i> {{ since(form.created) }} <i class="far fa-pencil"></i> {{ since(form.updated) }}
-                            </span>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
             <vue-progress-bar></vue-progress-bar>
             <vue-snotify></vue-snotify>
         </div>
@@ -247,11 +217,6 @@
                         this.$Progress.fail();
                         console.log(e);
                     });
-            },
-            show(status) {
-                  this.form.reset();
-                  this.form.fill(status);
-                  $("#showModal").modal("show");
             },
             edit(status) {
                 this.editMode = true;

@@ -14,6 +14,6 @@ class CourseController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.courses.index');
+        return view('admin.courses');
     }
 }

@@ -15,7 +15,7 @@
                 <li><a class="dropdown-item" href="#">{{ __('Roles and Permissions') }}</a></li>
                 <li class="dropdown-header">{{ __('Configurations') }}</li>
                 <li>
-                    <a class="dropdown-item" href="{{ route('categories.index') }}">
+                    <a class="dropdown-item" href="{{ route('categories') }}">
                         {{ __('Categories') }}
                     </a>
                 </li>

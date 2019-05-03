@@ -60,34 +60,18 @@ import 'owl.carousel';
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-import BootstrapVue from 'bootstrap-vue'
-Vue.use(BootstrapVue);
-
-import Toasted from 'vue-toasted';
-Vue.use(Toasted)
-
-import BModal from 'bootstrap-vue/es/components/modal/modal'
-Vue.component('b-modal', BModal);
-
-import BButton from 'bootstrap-vue/es/components/button/button'
-Vue.component('b-button', BButton);
-
-import BToast from 'bootstrap-vue/es/components/toast/toast'
-Vue.component('b-toast', BToast)
-
 import Categories from './components/CategoriesComponent';
 Vue.component('categories', Categories);
 
-import Category from './components/CategoryComponent';
-Vue.component('category', Category);
-
-//Componentes listos para presentarse
+//Componentes listos
 import Status from './components/StatusComponent';
 Vue.component('status-component', Status);
 
 import Level from './components/LevelComponent';
 Vue.component('level-component', Level);
+
+import Category from './components/CategoryComponent';
+Vue.component('category', Category);
 
 
 /**
