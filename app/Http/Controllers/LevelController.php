@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class OtherController extends Controller
+class LevelController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -14,6 +14,6 @@ class OtherController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.others.index');
+        return view('admin.levels');
     }
 }

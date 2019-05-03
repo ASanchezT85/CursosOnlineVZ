@@ -86,6 +86,9 @@ Vue.component('category', Category);
 import Status from './components/StatusComponent';
 Vue.component('status-component', Status);
 
+import Level from './components/LevelComponent';
+Vue.component('level-component', Level);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

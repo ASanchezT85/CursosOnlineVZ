@@ -14,6 +14,16 @@ class Level extends Model
      */
     protected $fillable = ['name', 'slug', 'description'];
 
+    public static function boot () {
+        parent::boot();
+
+        static::saving(function(Level $levels) {
+            if( ! \App::runningInConsole() ) {
+                $levels->slug = str_slug($levels->name, "-");
+            }
+        });
+    }
+
     public function courses(): HasMany
     {
         return $this->hasMany(Course::class);

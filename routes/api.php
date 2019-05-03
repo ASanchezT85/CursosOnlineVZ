@@ -28,3 +28,7 @@ Route::get('search/categories/{field}/{query}','Api\CategoryController@search');
 //Status
 Route::apiResource('statuses','Api\StatusController');
 Route::get('search/statuses/{field}/{query}','Api\StatusController@search');
+
+//Status
+Route::apiResource('levels','Api\LevelController');
+Route::get('search/levels/{field}/{query}','Api\LevelController@search');

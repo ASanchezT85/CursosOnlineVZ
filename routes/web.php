@@ -42,7 +42,9 @@ Route::middleware(['auth', 'verified'])->group(function() {
         //Courses
         Route::get('/courses','CourseController')->name('courses');
         //Status
-        Route::get('/others','OtherController')->name('others');
+        Route::get('/statuses','StatusController')->name('statuses');
+        //Level
+        Route::get('/levels','LevelController')->name('levels');
     });
     
     

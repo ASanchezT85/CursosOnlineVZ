@@ -7,17 +7,7 @@
     ])
 @endsection
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <status-component></status-component>
-        </div>
-        <div class="col-md-6">
-            
-        </div>
-    </div>  
-</div>
-
+<level-component></level-component>
 @endsection
 
 @push('scripts')
