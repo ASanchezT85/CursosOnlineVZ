@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Course;
-use App\Http\Resources\CourseResource;
-use App\Http\Resources\CourseCollection;
-
+use App\Helpers\Helper;
+use App\Http\Resources\Administration\CourseResource;
+use App\Http\Resources\Administration\CourseCollection;
 
 class CourseController extends Controller
 {
@@ -19,12 +19,16 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return new CourseCollection(Course::orderBy('id','DESC')->paginate(10));
+        $courses = Course::orderByRaw("CASE WHEN status_id ='2' THEN 1 ELSE 0 END DESC")
+            ->orderBy( 'name', 'DESC' )
+            ->paginate(12);
+
+        return new CourseCollection($courses);
     }
 
     public function search($field, $query)
     {
-        return new CourseCollection(Course::where($field,'LIKE',"%$query%")->latest()->paginate(10));
+        return new CourseCollection(Course::where($field,'LIKE',"%$query%")->latest()->paginate(12));
     }
 
     /**
@@ -45,25 +49,7 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'teacher_id'        => 'required|numeric',
-            'category_id'       => 'required|numeric',
-            'level_id'          => 'required|numeric',
-            'name'              => 'required',
-            'slug'              => 'required|unique:courses',
-            'picture'           => 'required',
-        ]);
-
-        $course = new Course();
-        $course->teacher_id = $request->teacher_id;
-        $course->category_id = $request->category_id;
-        $course->level_id = $request->level_id;
-        $course->name = $request->name;
-        $course->slug = $request->slug;
-        $course->picture = $request->picture;
-        $course->save();
-
-        return new CourseResource($course);
+        //
     }
 
     /**
@@ -72,9 +58,9 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Course $course)
     {
-        return new CourseResource(Course::findOrFail($id));
+        return view('maintenance', compact('course'));
     }
 
     /**
@@ -98,12 +84,12 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'status_id'         => 'required|numeric',
+            'status_id'           => 'required',
         ]);
 
         $course = Course::findOrfail($id);
-        $course->status_id = $request->status_id;
-        $course->save();
+
+        $course->update($request->only(['status_id']));
 
         return new CourseResource($course);
     }
@@ -117,7 +103,12 @@ class CourseController extends Controller
     public function destroy($id)
     {
         $course = Course::findOrfail($id);
+        
+        //Eliminamos la imagen del servidor
+        \Storage::delete('public/courses/' . $course->picture);
+        
         $course->delete();
+
         return new CourseResource($course);
     }
 }

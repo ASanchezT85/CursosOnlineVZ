@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Status;
-use App\Http\Resources\StatusResource;
-use App\Http\Resources\StatusCollection;
+use App\Http\Resources\Administration\StatusResource;
+use App\Http\Resources\Administration\StatusCollection;
 
 class StatusController extends Controller
 {

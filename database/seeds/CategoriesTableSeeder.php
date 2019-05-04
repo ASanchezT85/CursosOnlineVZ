@@ -18,5 +18,30 @@ class CategoriesTableSeeder extends Seeder
             'slug'                  => 'php',
             'picture'               => 'php.png'
         ]);
+        Category::create([
+            'name'                  => 'Laravel',
+            'slug'                  => 'laravel',
+            'picture'               => 'laravel.png'
+        ]);
+        Category::create([
+            'name'                  => 'JavaScript',
+            'slug'                  => 'javascript',
+            'picture'               => 'javascript.png'
+        ]);
+        Category::create([
+            'name'                  => 'MySQL',
+            'slug'                  => 'mysql',
+            'picture'               => 'mysql.png'
+        ]);
+        Category::create([
+            'name'                  => 'Angular',
+            'slug'                  => 'angular',
+            'picture'               => 'angular.png'
+        ]);
+        Category::create([
+            'name'                  => 'JQuery',
+            'slug'                  => 'jquery',
+            'picture'               => 'jquery.png'
+        ]);
     }
 }

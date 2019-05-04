@@ -27,8 +27,6 @@ Route::get('/images/{path}/{attachment}', function($path, $attachment) {
     }
 });
 
-Route::get('listcategories', 'Admin\CategoryController@getCategories');
-
 Route::middleware(['auth', 'verified'])->group(function() {
 
     //Interfaz
@@ -38,14 +36,24 @@ Route::middleware(['auth', 'verified'])->group(function() {
 
         //Category
         Route::get('/categories', 'CategoryController')->name('categories');
-        //Courses
-        Route::get('/courses','CourseController')->name('courses');
         //Status
         Route::get('/statuses','StatusController')->name('statuses');
         //Level
         Route::get('/levels','LevelController')->name('levels');
+        //Courses
+        Route::get('/courses','CourseController')->name('courses');
+        //Students
+        Route::get('/students','StudentController')->name('students');
+        //Teachers
+        Route::get('/teachers','StudentController')->name('teachers');
+        //Users
+        Route::get('/users','UserController')->name('users');
+        //Roles
+        Route::get('/roles','RoleController')->name('roles');
     });
     
-    
 });
+
+//Courses
+Route::get('/courses/{course}','CourseController@show');
 

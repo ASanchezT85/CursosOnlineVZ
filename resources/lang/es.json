@@ -30,7 +30,7 @@
     "Categories": "Categorías",
     "Sign up": "Registrarse",
     "My courses": "Mis Cursos",
-    "Teacher": "Profesor",
+    "Teachers": "Profesores", "Teacher": "Profesor",
     "Manage courses": "Administrar cursos",
     "Create courses": "Crear cursos",
     "My students": "Mis Estudiantes",
@@ -86,5 +86,8 @@
     "What are you looking for?": "¿Qué estás buscando?", "See more": "Ver más", 
     "Section dedicated to the creation, edition or elimination of categories": "Sección dedicada a la creación, edición o eliminación de categorías",
     "Add category": "Añadir Categoría", "Category name": "Nombre de la Categoria", "Image": "Imagen", "Upload": "Subir", "Choose file": "Elija el archivo",
-    "Intermediate": "Intermedio", "Beginner": "Principiante", "Advanced": "Avanzado", "Statuses": "Estados", "Levels": "Niveles"
+    "Intermediate": "Intermedio", "Beginner": "Principiante", "Advanced": "Avanzado", "Statuses": "Estados", "Levels": "Niveles",
+    "Something exciting is coming your way!": "Algo emocionante se acerca en tu camino!",
+    "A complete package; Our company is dedicated to your training. We are a family and we want you to be part of it": "Un paquete completo; Nuestra empresa esta dedicada a tu formacion. Somos una familia y queremos que formes parte de ella",
+    "Launch Progress": "Progreso de lanzamiento"
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Administration;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -22,6 +22,7 @@ class CourseCollection extends ResourceCollection
                     'category'          => $course->category->name,
                     'level'             => __($course->level->name),
                     'name'              => $course->name,
+                    'slug'              => $course->slug,
                     'description'       => $course->description,
                     'amount'            => $course->amount,
                     'picture'           => $course->pathAttachment(),

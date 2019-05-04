@@ -30,5 +30,5 @@ Route::apiResource('levels','Api\LevelController');
 Route::get('search/levels/{field}/{query}','Api\LevelController@search');
 
 //Course
-Route::apiResource('courses','Admin\CourseController');
-Route::get('search/courses/{field}/{query}','Admin\CourseController@search');
+Route::apiResource('courses','Api\CourseController');
+Route::get('search/courses/{field}/{query}','Api\CourseController@search');

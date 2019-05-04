@@ -6,13 +6,13 @@
             <ul class="list-unstyled w-100 w-sm-50 pr-0 pr-lg-5">
                 <li class="dropdown-header">{{ __('Manage WEB') }}</li>
                 <li><a class="dropdown-item" href="{{ route('courses') }}">{{ __('Courses') }}</a></li>
-                <li> <a class="dropdown-item" href="#">{{ __('Students') }}</a> </li>
-                <li> <a class="dropdown-item" href="#">{{ __('Teacher') }}</a> </li>
+                <li> <a class="dropdown-item" href="{{ route('students') }}">{{ __('Students') }}</a> </li>
+                <li> <a class="dropdown-item" href="{{ route('teachers') }}">{{ __('Teachers') }}</a> </li>
             </ul>
             <ul class="list-unstyled w-100 w-sm-50 pr-0 pr-lg-5">
                 <li class="dropdown-header">{{ __('User control') }}</li>
-                <li> <a class="dropdown-item" href="#">{{ __('Users') }}</a> </li>
-                <li><a class="dropdown-item" href="#">{{ __('Roles and Permissions') }}</a></li>
+                <li> <a class="dropdown-item" href="{{ route('users') }}">{{ __('Users') }}</a> </li>
+                <li><a class="dropdown-item" href="{{ route('roles') }}">{{ __('Roles and Permissions') }}</a></li>
                 <li class="dropdown-header">{{ __('Configurations') }}</li>
                 <li>
                     <a class="dropdown-item" href="{{ route('categories') }}">

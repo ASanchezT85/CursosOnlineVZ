@@ -2,15 +2,18 @@
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-12 col-lg-12 mx-auto text-center mt-1">
-                    <h3>Sección dedicada a la creación, edición o eliminación de Estados</h3>
+                <div class="col-12 col-lg-8 mx-auto">
+                    <div class="title text-center">
+                        <h2>Administración de Estados</h2>
+                        <p class="mb-0">Crear, Editar, o Eliminar estados de la plataforma</p>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-lg-12 mx-auto mt-2">
                     <div class="row">
                         <div class="col-md-6">
-                            <ul class="social-icons si-colored-on-hover">
+                            <ul class="social-icons">
                                 <li class="social-icons-item social-facebook">
                                     <a class="social-icons-link" href="#"
                                        v-on:click.prevent="reload">
@@ -43,18 +46,18 @@
                             <tbody>
                                 <tr v-show="statuses.length" v-for="(status, index) in statuses" :key="status.id">
                                 <th scope="row" class="text-center">{{ index + 1 }}</th>
-                                <td>{{ status.name}}</td>
+                                <td class="text-center">{{ status.name}}</td>
                                 <td>{{ status.description}}</td>
-                                <td>{{ since(status.created) }} / {{ since(status.updated) }}</td>
+                                <td class="text-center">{{ since(status.created) }} / {{ since(status.updated) }}</td>
                                 <td class="text-center">
-                                    <ul class="social-icons si-colored-on-hover">
-                                        <li class="social-icons-item social-facebook">
+                                    <ul class="social-icons round si-colored-on-hover">
+                                        <li class="social-icons-item social-soundcloud">
                                             <a class="social-icons-link" href="#"
                                                v-on:click.prevent="edit(status)">
                                                 <i class="far fa-edit"></i>
                                             </a>
                                         </li>
-                                        <li class="social-icons-item social-facebook">
+                                        <li class="social-icons-item social-youtube">
                                             <a class="social-icons-link" href="#"
                                                v-on:click.prevent="destroy(status)">
                                                 <i class="far fa-trash-alt"></i>
@@ -65,7 +68,13 @@
                             </tr>
                             <tr v-show="!statuses.length">
                                 <td colspan="7">
-                                    <div class="alert alert-danger" role="alert">Lo sentimos :( No se encontraron datos.</div>
+                                    <div class="offset-1 col-md-10 mb-4">
+                                        <h5 class="mb-4">No tenemos datos para mostrar...</h5>
+                                        <blockquote class="blockquote bg-dark" cite="#">
+                                            <h5 class="mb-2 ">Si pierdes tus sueños tambien puedes llegar a perder la cabeza.</h5>
+                                            <cite>–Mick Jagger</cite>
+                                        </blockquote>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>

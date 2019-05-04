@@ -7,7 +7,7 @@
     ])
 @endsection
 @section('content')
-<category></category>
+<category-component></category-component>
 @endsection
 
 @push('scripts')

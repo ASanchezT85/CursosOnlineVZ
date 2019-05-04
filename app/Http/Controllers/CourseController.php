@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Course;
+
 class CourseController extends Controller
 {
     /**
@@ -15,5 +17,16 @@ class CourseController extends Controller
     public function __invoke(Request $request)
     {
         return view('admin.courses');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Course $course)
+    {
+        return view('maintenance', compact('course'));
     }
 }

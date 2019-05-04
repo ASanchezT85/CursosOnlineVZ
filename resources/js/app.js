@@ -38,9 +38,6 @@ const VueProgressBarOptions = {
 };
 Vue.use(VueProgressBar, VueProgressBarOptions);
 
-import CourseComponent from './components/CourseComponent.vue'
-Vue.component('course-component', CourseComponent);
-
 import PaginationComponent from './components/partial/PaginationComponent.vue'
 Vue.component('pagination', PaginationComponent);
 
@@ -60,8 +57,6 @@ import 'owl.carousel';
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-import Categories from './components/CategoriesComponent';
-Vue.component('categories', Categories);
 
 //Componentes listos
 import Status from './components/StatusComponent';
@@ -71,8 +66,10 @@ import Level from './components/LevelComponent';
 Vue.component('level-component', Level);
 
 import Category from './components/CategoryComponent';
-Vue.component('category', Category);
+Vue.component('category-component', Category);
 
+import CourseComponent from './components/CourseComponent.vue'
+Vue.component('course-component', CourseComponent);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

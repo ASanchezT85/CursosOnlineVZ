@@ -2,29 +2,34 @@
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-12 mb-5">
-                    <h5 class="text-center mb-4 mt-4">Tabla de Curos</h5>
+                <div class="col-12 col-lg-8 mx-auto">
+                    <div class="title text-center">
+                        <h2>Administración de Cursos</h2>
+                        <p class="mb-0">Aprobar, Rechazar, o Elimina cursos de la plataforma</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-12 mx-auto mt-2">
                     <div class="row">
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-primary" @click="reload">
-                                Recargar
-                                <i class="fas fa-sync"></i>
-                            </button>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <select v-model="queryFiled" class="custom-select select-big mb-3">
-                                    <option value="name">Name</option>
-                                    <option value="category">Category</option>
-                                    <option value="teacher">Teacher</option>
-                                    <option value="status">Status</option>
-                                </select>
-                            </div>
+                        <div class="col-md-6">
+                            <ul class="social-icons">
+                                <li class="social-icons-item social-facebook">
+                                    <a class="social-icons-link" href="#"
+                                       v-on:click.prevent="reload">
+                                        <i class="fas fa-sync"></i>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                         <div class="col-md-6">
                             <input v-model="query" class="form-control" type="text" placeholder="Search">
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-12 mx-auto mt-2">
                     <div class="table-responsive-sm">
                         <table class="table table-lg table-noborder table-striped">
                             <thead class="all-text-white bg-primary">
@@ -33,48 +38,57 @@
                                     <th scope="col" class="text-center">Profesor</th>
                                     <th scope="col" class="text-center">Nombre</th>
                                     <th scope="col" class="text-center">Costo</th>
-                                    <th scope="col" class="text-center" colspan="2">Acciones</th>
-                                    <th scope="col" class="text-center">Status</th>
+                                    <th scope="col" class="text-center">Desde</th>
+                                    <th scope="col" class="text-center">Estado</th>
+                                    <th scope="col" class="text-center" colspan="3">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-show="courses.length" v-for="(course, index) in courses" :key="course.id">
                                 <th scope="row" class="text-center">{{ index + 1 }}</th>
-                                <td>{{ course.teacher}}</td>
+                                <td class="text-center">{{ course.teacher}}</td>
                                 <td>{{ course.name }}</td>
-                                <td class="text-center">{{ course.amount }}</td>
+                                <td class="text-center">{{ course.amount }}$</td>
                                 <td class="text-center">
-                                    <button class="btn btn-info" @click="show(course)" style="min-width: 100px">
-                                        Detaller
-                                    </button>
-                                    <button class="btn btn-danger" @click="destroy(course)" style="min-width: 100px">
-                                        Eliminar
-                                    </button>
+                                    <div class="post-time">{{ since(course.update) }}</div>
                                 </td>
                                 <td class="text-center">
-                                    <form @submit.prevent="update()">
-                                        <input
-                                            v-if="course.status_id === 1"
-                                            v-model="form.status_id=2"
-                                            name="status_id"
-                                            type="hidden">
-                                        <input
-                                            v-else
-                                            v-model="form.status_id=3"
-                                            name="status_id"
-                                            type="hidden">
-                                        <button 
-                                            :disabled="form.busy" type="submit"
-                                            :class="(course.status_id === 1) ? 'btn btn-primary' : 'btn btn-warning'"
-                                            style="min-width: 100px">
-                                            {{ (course.status_id === 1) ? 'Aprobar' : 'Rechazar' }}
-                                        </button>
-                                    </form>
+                                    <span :class="statusClass(course.status)">
+                                        {{ course.status }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <ul class="social-icons round si-colored-on-hover">
+                                        <li class="social-icons-item social-facebook">
+                                            <a class="social-icons-link" href="#"
+                                               v-on:click.prevent="show(course)">
+                                                <i class="far fa-eye"></i>
+                                            </a>
+                                        </li>
+                                        <li class="social-icons-item social-soundcloud">
+                                            <a class="social-icons-link" href="#"
+                                               v-on:click.prevent="edit(course)">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </li>
+                                        <li class="social-icons-item social-youtube">
+                                            <a class="social-icons-link" href="#"
+                                               v-on:click.prevent="destroy(course)">
+                                                <i class="far fa-trash-alt"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </td>
                             </tr>
                             <tr v-show="!courses.length">
                                 <td colspan="7">
-                                    <div class="alert alert-danger" role="alert">Lo sentimos :( No se encontraron datos.</div>
+                                    <div class="offset-1 col-md-10 mb-4">
+                                        <h5 class="mb-4">No tenemos datos para mostrar...</h5>
+                                        <blockquote class="blockquote bg-dark" cite="#">
+                                            <h5 class="mb-2 ">Si pierdes tus sueños tambien puedes llegar a perder la cabeza.</h5>
+                                            <cite>–Mick Jagger</cite>
+                                        </blockquote>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -83,45 +97,42 @@
                             v-if="pagination.last_page > 1"
                             :pagination="pagination"
                             :offset="5"
-                            @paginate="query === '' ? getCoursesData() : searchData()"
+                            @paginate="query === '' ? getData() : searchData()"
                         ></pagination>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">            
-            <!-- showModal -->
-            <b-modal ref="showModal" hide-footer>
-                <template slot="modal-title">
-                    <span class="pre-title">{{ form.name }}</span>
-                </template>
-                <template slot="default" slot-scope="{ hide }">
-                    <div class="blog bg-light">
-                        <div class="post">
-                            <img :src="form.picture" alt="">
-                            <div class="post-info">
-                                <span class="post-tag bg-grad text-white mb-3 clearfix">
-                                    {{ form.category }}
-                                </span>
-                                <span class="post-tag bg-grad text-white mb-3 clearfix" style="top: 60px !important;">{{ form.level }}</span>
-                                <div class="post-author"><strong>{{ form.teacher }}</strong></div>,
-                                <div class="post-time"> {{ since(form.created) }}</div>
-                                <br>
-                                <div class="post-author"><strong>Costo:</strong></div>
-                                <div class="post-time">{{ form.amount }} $</div>
-                                <br>
-                                <div class="post-author"><strong>Estado: </strong></div>
-                                <div class="post-time">{{ form.status }}</div>
-                            </div>
+            <!-- Modal Create - Update-->
+            <div class="modal fade" ref="statusModalLong" id="statusModalLong" tabindex="-1" role="dialog" aria-labelledby="statusModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="statusModal">Editar estado del Curso</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
+                        <form @submit.prevent="update()" @keydown="form.onKeydown($event)">
+                            <div class="modal-body">
+                                <alert-error :form="form"></alert-error>
+                                <div class="form-group">
+                                    <label>Estado</label>
+                                    <select class="custom-select select-big mb-3" v-model="form.status_id">
+                                        <option v-show="status.id!=2" v-for="status in statuses" :key="status.id" :value="status.id">{{ status.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button :disabled="form.busy" type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
                     </div>
-                </template>
-            </b-modal>
-
-            <vue-progress-bar></vue-progress-bar>
-            <vue-snotify></vue-snotify>
+                </div>
+            </div>
         </div>
+        <vue-progress-bar></vue-progress-bar>
+        <vue-snotify></vue-snotify>
     </section>
 </template>
 
@@ -136,50 +147,49 @@ export default {
             query: "",
             queryFiled: "name",
             courses: [],
+            statuses: [],
+            clase: "",
             form: new Form({
                 id: "",
-                teacher: "",
-                category: "",
-                level: "",
-                name: "",
-                description: "",
-                amount: "",
-                slug: "",
-                picture: "",
-                status: "",
-                approved: "",
-                rejected: "",
-                created: "",
-                update: "",
                 status_id: ""
             }),
             pagination: {
                 current_page: 1
             },
+            
         };
      },
     watch: {
         query: function(newQ, old) {
             if (newQ === "") {
-                this.getCoursesData();
+                this.getData();
             } else {
                 this.searchData();
             }
         }
     },
     mounted() {
-        this.getCoursesData();
+        this.getData();
     },
     methods: {
-        getCoursesData() {
+        getData() {
             this.$Progress.start();
-            axios.get("/api/courses?page=" + this.pagination.current_page)
-                 .then(response => {
-                    this.courses = response.data.data;
-                    this.pagination = response.data.meta;
-                    this.$Progress.finish();
-            })
-            .catch(e => {
+            //Cargamos los Cursos
+            var urlCourse = "/api/courses?page=" + this.pagination.current_page
+            axios.get(urlCourse).then(response => {
+                this.courses = response.data.data;
+                this.pagination = response.data.meta;
+            }).catch(e => {
+                console.log(e);
+                this.$Progress.fail();
+            });
+
+            //Cargamos los Estados
+            var urlStatus = '/api/statuses?page=' + this.pagination.current_page;
+            axios.get(urlStatus).then(response => {
+                this.statuses = response.data.data;
+                this.$Progress.finish();
+            }).catch(e => {
                 console.log(e);
                 this.$Progress.fail();
             });
@@ -203,22 +213,21 @@ export default {
             });
         },
         reload() {
-            this.getCoursesData();
+            this.getData();
+            console.log('hola');
             this.query = "";
             this.queryFiled = "name";
             this.$snotify.success("Los datos se actualizan con éxito", "Éxito");
         },
         show(course) {
-            this.form.reset();
-            this.form.fill(course);
-            this.$refs.showModal.show();
+            window.location.href = '/courses/'+course.slug;
         },
         edit(course) {
             this.editMode = true;
             this.form.reset();
             this.form.clear();
             this.form.fill(course);
-            this.$refs.courseModalLong.show();
+            $("#statusModalLong").modal("show");
         },
         update() {
             this.$Progress.start();
@@ -226,8 +235,8 @@ export default {
             this.form
                 .put("/api/courses/" + this.form.id)
                 .then(response => {
-                    this.getCoursesData();
-                    //$("#courseModalLong").modal("hide");
+                    this.getData();
+                    $("#statusModalLong").modal("hide");
                     if (this.form.successful) {
                         this.$Progress.finish();
                         this.$snotify.success("Customer Successfully Updated", "Success");
@@ -260,7 +269,7 @@ export default {
                                 this.$Progress.start();
                                 axios.delete("/api/courses/" + course.id)
                                     .then(response => {
-                                        this.getCoursesData();
+                                        this.getData();
                                         this.$Progress.finish();
                                         this.$snotify.success(
                                             "Customer Successfully Deleted",
@@ -287,6 +296,18 @@ export default {
         },
         since: function(d){
             return moment(d).fromNow();
+        }
+        ,
+        statusClass: function(s){
+            if(s==='PUBLISHED'){
+                return 'badge badge-success ml-2';
+            }else if(s==='PENDING'){
+                return 'badge badge-warning ml-2';
+            }else if(s==='REJECTED'){
+                return 'badge badge-danger ml-2';
+            }else {
+                return 'badge badge-info ml-2';
+            }
         }
     }
 };

@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Level;
-use App\Http\Resources\LevelResource;
-use App\Http\Resources\LevelCollection;
+use App\Http\Resources\Administration\LevelResource;
+use App\Http\Resources\Administration\LevelCollection;
 
 class LevelController extends Controller
 {

@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 
 use App\Category;
 use App\Helpers\Helper;
-use App\Http\Resources\CategoryResource;
-use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\Administration\CategoryResource;
+use App\Http\Resources\Administration\CategoryCollection;
 
 class CategoryController extends Controller
 {
