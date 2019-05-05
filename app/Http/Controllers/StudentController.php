@@ -14,7 +14,6 @@ class StudentController extends Controller
      */
     public function __invoke(Request $request)
     {
-        //return view('admin.statuses');
-        return view('maintenance');
+        return view('admin.students');
     }
 }

@@ -71,6 +71,9 @@ Vue.component('category-component', Category);
 import CourseComponent from './components/CourseComponent.vue'
 Vue.component('course-component', CourseComponent);
 
+import StudentComponent from './components/StudentComponent.vue'
+Vue.component('students-component', StudentComponent);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
