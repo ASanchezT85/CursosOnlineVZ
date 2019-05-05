@@ -14,6 +14,17 @@ class StudentCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => $this->collection->transform(function ($student){
+                return [
+                    'id'        => $student->id,
+                    'user_id'   => $student->user_id,
+                    'name'      => $student->user->name,
+                    'courses'   => $student->courses,
+                    'created'   => $student->user->created_at->format('Ymd'),
+                    'updated'   => $student->user->updated_at->format('Ymd'),
+                ];
+            })
+        ];
     }
 }

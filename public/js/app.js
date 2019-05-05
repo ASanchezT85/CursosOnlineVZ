@@ -3040,6 +3040,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3047,8 +3068,59 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
     return {
       editMode: false,
       query: "",
-      queryFiled: "name"
+      queryFiled: "name",
+      pagination: {
+        current_page: 1
+      }
     };
+  },
+  watch: {
+    query: function query(newQ, old) {
+      if (newQ === "") {
+        this.getData();
+      } else {
+        this.searchData();
+      }
+    }
+  },
+  mounted: function mounted() {
+    this.getData();
+  },
+  methods: {
+    //Read
+    getData: function getData() {
+      var _this = this;
+
+      this.$Progress.start();
+      var url = '/api/students?page=' + this.pagination.current_page;
+      axios.get(url).then(function (response) {
+        _this.statuses = response.data.data;
+        _this.pagination = response.data.meta;
+
+        _this.$Progress.finish();
+      })["catch"](function (e) {
+        console.log(e);
+
+        _this.$Progress.fail();
+      });
+    },
+    //searchData
+    searchData: function searchData() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      var url = '/api/search/students/' + this.queryFiled + "/" + this.query + "?page=" + this.pagination.current_page;
+      axios.get(url).then(function (response) {
+        _this2.statuses = response.data.data;
+        _this2.pagination = response.data.meta;
+
+        _this2.$Progress.finish();
+      })["catch"](function (e) {
+        console.log(e);
+
+        _this2.$Progress.fail();
+      });
+    }
   }
 });
 
@@ -63191,24 +63263,88 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("section", [
+    _c(
+      "div",
+      { staticClass: "container" },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-12 col-lg-12 mx-auto mt-2" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("ul", { staticClass: "social-icons" }, [
+                  _c(
+                    "li",
+                    { staticClass: "social-icons-item social-facebook" },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "social-icons-link",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.reload($event)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-sync" })]
+                      )
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.query,
+                      expression: "query"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Search" },
+                  domProps: { value: _vm.query },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.query = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("vue-progress-bar"),
+        _vm._v(" "),
+        _c("vue-snotify")
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("section", [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-12 col-lg-8 mx-auto" }, [
-            _c("div", { staticClass: "title text-center" }, [
-              _c("h2", [_vm._v("Administración de Estudiantes")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "mb-0" }, [
-                _vm._v("Visualización de los estudiantes en la plataforma")
-              ])
-            ])
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12 col-lg-8 mx-auto" }, [
+        _c("div", { staticClass: "title text-center" }, [
+          _c("h2", [_vm._v("Administración de Estudiantes")]),
+          _vm._v(" "),
+          _c("p", { staticClass: "mb-0" }, [
+            _vm._v("Visualización de los estudiantes en la plataforma")
           ])
         ])
       ])

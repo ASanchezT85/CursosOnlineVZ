@@ -14,7 +14,7 @@ class Student extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class)->select('id', 'role_id', 'name', 'email');
+        return $this->belongsTo(User::class);
     }
 
     public function courses(): BelongsToMany
