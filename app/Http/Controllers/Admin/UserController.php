@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class LevelController extends Controller
+class UserController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -14,6 +15,7 @@ class LevelController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.levels');
+        //return view('admin.statuses');
+        return view('maintenance');
     }
 }

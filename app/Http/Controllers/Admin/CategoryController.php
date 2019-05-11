@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -14,7 +15,6 @@ class UserController extends Controller
      */
     public function __invoke(Request $request)
     {
-        //return view('admin.statuses');
-        return view('maintenance');
+        return view('admin.categories');
     }
 }

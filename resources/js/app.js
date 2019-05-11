@@ -58,21 +58,11 @@ import 'owl.carousel';
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-//Componentes listos
-import Status from './components/StatusComponent';
-Vue.component('status-component', Status);
+//Componentes de aministration
+require('./admin');
 
-import Level from './components/LevelComponent';
-Vue.component('level-component', Level);
-
-import Category from './components/CategoryComponent';
-Vue.component('category-component', Category);
-
-import CourseComponent from './components/CourseComponent.vue'
-Vue.component('course-component', CourseComponent);
-
-import StudentComponent from './components/StudentComponent.vue'
-Vue.component('students-component', StudentComponent);
+//Componentes de teacher
+require('./teacher');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

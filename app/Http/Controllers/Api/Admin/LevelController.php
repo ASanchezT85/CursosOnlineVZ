@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Status;
-use App\Http\Resources\Administration\StatusResource;
-use App\Http\Resources\Administration\StatusCollection;
+use App\Level;
+use App\Http\Resources\Administration\LevelResource;
+use App\Http\Resources\Administration\LevelCollection;
 
-class StatusController extends Controller
+class LevelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +18,12 @@ class StatusController extends Controller
      */
     public function index()
     {
-        return new StatusCollection(Status::orderBy('name','ASC')->paginate(8));
+        return new LevelCollection(Level::orderBy('name','ASC')->paginate(8));
     }
 
     public function search($field, $query)
     {
-        return new StatusCollection(Status::where($field,'LIKE',"%$query%")->latest()->paginate(8));
+        return new LevelCollection(Level::where($field,'LIKE',"%$query%")->latest()->paginate(8));
     }
 
     /**
@@ -49,12 +49,12 @@ class StatusController extends Controller
             'description'       => 'required',
         ]);
 
-        $status = new Status();
-        $status->name = $request->name;
-        $status->description = $request->description;
-        $status->save();
+        $level = new Level();
+        $level->name = $request->name;
+        $level->description = $request->description;
+        $level->save();
 
-        return new StatusResource($status);
+        return new LevelResource($level);
     }
 
     /**
@@ -65,7 +65,7 @@ class StatusController extends Controller
      */
     public function show($id)
     {
-        return new StatusResource(Status::findOrFail($id));
+        return new LevelResource(Level::findOrFail($id));
     }
 
     /**
@@ -93,12 +93,12 @@ class StatusController extends Controller
             'description'       => 'required',
         ]);
         
-        $status = Status::findOrfail($id);
-        $status->name = $request->name;
-        $status->description = $request->description;
-        $status->save();
+        $level = Level::findOrfail($id);
+        $level->name = $request->name;
+        $level->description = $request->description;
+        $level->save();
 
-        return new StatusResource($status);
+        return new LevelResource($level);
     }
 
     /**
@@ -109,8 +109,7 @@ class StatusController extends Controller
      */
     public function destroy($id)
     {
-        $status = Status::findOrfail($id);
-        $status->delete();
-        return new StatusResource($status);
-    }
+        $level = Level::findOrfail($id);
+        $level->delete();
+        return new LevelResource($level);    }
 }

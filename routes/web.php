@@ -35,25 +35,31 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::middleware(['permission:settings'])->group(function() {
 
         //Category
-        Route::get('/categories', 'CategoryController')->name('categories');
+        Route::get('/categories', 'Admin\CategoryController')->name('categories');
         //Status
-        Route::get('/statuses','StatusController')->name('statuses');
+        Route::get('/statuses','Admin\StatusController')->name('statuses');
         //Level
-        Route::get('/levels','LevelController')->name('levels');
+        Route::get('/levels','Admin\LevelController')->name('levels');
         //Courses
-        Route::get('/courses','CourseController')->name('courses');
+        Route::get('/courses','Admin\CourseController')->name('courses');
         //Students
-        Route::get('/students','StudentController')->name('students');
+        Route::get('/students','Admin\StudentsController')->name('students');
         //Teachers
-        Route::get('/teachers','StudentController')->name('teachers');
+        Route::get('/teachers','Admin\TeachersController')->name('teachers');
         //Users
-        Route::get('/users','UserController')->name('users');
+        Route::get('/users','Admin\UserController')->name('users');
         //Roles
-        Route::get('/roles','RoleController')->name('roles');
+        Route::get('/roles','Admin\RoleController')->name('roles');
+    });
+
+    Route::middleware(['permission:teacher'])->group(function() {
+        //Teacher
+        Route::get('/teacher','TeacherController')->name('teacher');
+        Route::get('/teacher/list','TeacherController@list');
     });
     
 });
 
 //Courses
-Route::get('/courses/{course}','CourseController@show');
+Route::get('/courses/{course}','Admin\CourseController@show');
 

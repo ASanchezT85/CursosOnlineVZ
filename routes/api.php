@@ -18,21 +18,30 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //Category
-Route::apiResource('categories','Api\CategoryController');
-Route::get('search/categories/{field}/{query}','Api\CategoryController@search');
+Route::apiResource('categories','Api\Admin\CategoryController');
+Route::get('search/categories/{field}/{query}','Api\Admin\CategoryController@search');
 
 //Status
-Route::apiResource('statuses','Api\StatusController');
-Route::get('search/statuses/{field}/{query}','Api\StatusController@search');
+Route::apiResource('statuses','Api\Admin\StatusController');
+Route::get('search/statuses/{field}/{query}','Api\Admin\StatusController@search');
 
 //Status
-Route::apiResource('levels','Api\LevelController');
-Route::get('search/levels/{field}/{query}','Api\LevelController@search');
+Route::apiResource('levels','Api\Admin\LevelController');
+Route::get('search/levels/{field}/{query}','Api\Admin\LevelController@search');
 
 //Course
-Route::apiResource('courses','Api\CourseController');
-Route::get('search/courses/{field}/{query}','Api\CourseController@search');
+Route::apiResource('courses','Api\Admin\CourseController');
+Route::get('search/courses/{field}/{query}','Api\Admin\CourseController@search');
 
-//Course
-Route::apiResource('students','Api\StudentController');
-Route::get('search/students/{field}/{query}','Api\StudentController@search');
+//Student
+Route::apiResource('students','Api\Admin\StudentController');
+Route::get('search/students/{field}/{query}','Api\Admin\StudentController@search');
+
+//Student
+Route::apiResource('teachers','Api\Admin\TeachersController');
+Route::get('search/teachers/{field}/{query}','Api\Admin\TeachersController@search');
+
+Route::middleware(['permission:teacher'])->group(function() {
+    Route::apiResource('teacher','Api\Teacher\TeacherController');
+    Route::get('search/teachers/{field}/{query}','Api\Teacher\TeacherController@search');
+});

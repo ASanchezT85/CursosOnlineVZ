@@ -17,12 +17,13 @@ class StudentCollection extends ResourceCollection
         return [
             'data' => $this->collection->transform(function ($student){
                 return [
-                    'id'        => $student->id,
-                    'user_id'   => $student->user_id,
-                    'name'      => $student->user->name,
-                    'courses'   => $student->courses,
-                    'created'   => $student->user->created_at->format('Ymd'),
-                    'updated'   => $student->user->updated_at->format('Ymd'),
+                    'id'            => $student->id,
+                    'user_id'       => $student->user_id,
+                    'name'          => $student->user->name,
+                    'courses'       => $student->courses,
+                    'courses_count' => $student->courses_count,
+                    'created'       => $student->user->created_at->format('Ymd'),
+                    'updated'       => $student->user->updated_at->format('Ymd'),
                 ];
             })
         ];

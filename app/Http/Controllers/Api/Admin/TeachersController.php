@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Student;
-use App\Http\Resources\Administration\StudentResource;
-use App\Http\Resources\Administration\StudentCollection;
+use App\User;
+use App\Teacher;
+use App\Http\Resources\Administration\TeacherCollection;
 
-
-class StudentController extends Controller
+class TeachersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +18,22 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return new StudentCollection(Student::orderBy('user_id','ASC')->paginate(12));
+        $teachers = Teacher::withCount(['courses'])
+            ->with('user')
+            ->orderBy('courses_count', 'DSC')
+            ->paginate(12);
+       
+        return new TeacherCollection($teachers);
+    }
+
+    public function search($field, $query)
+    {
+        $search = User::where('name','LIKE',"%$query%")->first();
+        
+        $student = Teacher::withCount(['courses'])
+            ->where($field, $search->id)->paginate(12);
+
+        return new TeacherCollection($student);
     }
 
     /**

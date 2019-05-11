@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class StudentController extends Controller
+class TeachersController extends Controller
 {
-    /**
+   /**
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -14,6 +15,6 @@ class StudentController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.students');
+        return view('admin.teachers');
     }
 }

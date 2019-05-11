@@ -19,7 +19,17 @@ class Course extends Model
     const PENDING = 2;
     const REJECTED = 3;
 
-    protected $fillable = ['teacher_id', 'name', 'description', 'picture', 'level_id', 'category_id', 'status_id'];
+    protected $fillable = [
+        'teacher_id', 
+        'category_id', 
+        'level_id',
+        'name',
+        'description', 
+        'amount',
+        'slug',
+        'picture', 
+        'status_id'
+    ];
 
     protected $withCount = ['reviews', 'students'];
 

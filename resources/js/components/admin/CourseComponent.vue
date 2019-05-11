@@ -214,7 +214,6 @@ export default {
         },
         reload() {
             this.getData();
-            console.log('hola');
             this.query = "";
             this.queryFiled = "name";
             this.$snotify.success("Los datos se actualizan con éxito", "Éxito");
@@ -296,8 +295,7 @@ export default {
         },
         since: function(d){
             return moment(d).fromNow();
-        }
-        ,
+        },
         statusClass: function(s){
             if(s==='PUBLISHED'){
                 return 'badge badge-success ml-2';

@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Level;
-use App\Http\Resources\Administration\LevelResource;
-use App\Http\Resources\Administration\LevelCollection;
+use App\Course;
+use App\Helpers\Helper;
+use App\Http\Resources\Administration\CourseResource;
+use App\Http\Resources\Administration\CourseCollection;
 
-class LevelController extends Controller
+class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +19,16 @@ class LevelController extends Controller
      */
     public function index()
     {
-        return new LevelCollection(Level::orderBy('name','ASC')->paginate(8));
+        $courses = Course::orderByRaw("CASE WHEN status_id ='2' THEN 1 ELSE 0 END DESC")
+            ->orderBy( 'name', 'DESC' )
+            ->paginate(12);
+
+        return new CourseCollection($courses);
     }
 
     public function search($field, $query)
     {
-        return new LevelCollection(Level::where($field,'LIKE',"%$query%")->latest()->paginate(8));
+        return new CourseCollection(Course::where($field,'LIKE',"%$query%")->latest()->paginate(12));
     }
 
     /**
@@ -44,17 +49,7 @@ class LevelController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'name'              => 'required',
-            'description'       => 'required',
-        ]);
-
-        $level = new Level();
-        $level->name = $request->name;
-        $level->description = $request->description;
-        $level->save();
-
-        return new LevelResource($level);
+        //
     }
 
     /**
@@ -63,9 +58,9 @@ class LevelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Course $course)
     {
-        return new LevelResource(Level::findOrFail($id));
+        return view('maintenance', compact('course'));
     }
 
     /**
@@ -89,16 +84,14 @@ class LevelController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'name'              => 'required',
-            'description'       => 'required',
+            'status_id'           => 'required',
         ]);
-        
-        $level = Level::findOrfail($id);
-        $level->name = $request->name;
-        $level->description = $request->description;
-        $level->save();
 
-        return new LevelResource($level);
+        $course = Course::findOrfail($id);
+
+        $course->update($request->only(['status_id']));
+
+        return new CourseResource($course);
     }
 
     /**
@@ -109,7 +102,13 @@ class LevelController extends Controller
      */
     public function destroy($id)
     {
-        $level = Level::findOrfail($id);
-        $level->delete();
-        return new LevelResource($level);    }
+        $course = Course::findOrfail($id);
+        
+        //Eliminamos la imagen del servidor
+        \Storage::delete('public/courses/' . $course->picture);
+        
+        $course->delete();
+
+        return new CourseResource($course);
+    }
 }

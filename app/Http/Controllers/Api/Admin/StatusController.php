@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Course;
-use App\Helpers\Helper;
-use App\Http\Resources\Administration\CourseResource;
-use App\Http\Resources\Administration\CourseCollection;
+use App\Status;
+use App\Http\Resources\Administration\StatusResource;
+use App\Http\Resources\Administration\StatusCollection;
 
-class CourseController extends Controller
+class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,16 +18,12 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::orderByRaw("CASE WHEN status_id ='2' THEN 1 ELSE 0 END DESC")
-            ->orderBy( 'name', 'DESC' )
-            ->paginate(12);
-
-        return new CourseCollection($courses);
+        return new StatusCollection(Status::orderBy('name','ASC')->paginate(8));
     }
 
     public function search($field, $query)
     {
-        return new CourseCollection(Course::where($field,'LIKE',"%$query%")->latest()->paginate(12));
+        return new StatusCollection(Status::where($field,'LIKE',"%$query%")->latest()->paginate(8));
     }
 
     /**
@@ -49,7 +44,17 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'              => 'required',
+            'description'       => 'required',
+        ]);
+
+        $status = new Status();
+        $status->name = $request->name;
+        $status->description = $request->description;
+        $status->save();
+
+        return new StatusResource($status);
     }
 
     /**
@@ -58,9 +63,9 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
+    public function show($id)
     {
-        return view('maintenance', compact('course'));
+        return new StatusResource(Status::findOrFail($id));
     }
 
     /**
@@ -84,14 +89,16 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'status_id'           => 'required',
+            'name'              => 'required',
+            'description'       => 'required',
         ]);
+        
+        $status = Status::findOrfail($id);
+        $status->name = $request->name;
+        $status->description = $request->description;
+        $status->save();
 
-        $course = Course::findOrfail($id);
-
-        $course->update($request->only(['status_id']));
-
-        return new CourseResource($course);
+        return new StatusResource($status);
     }
 
     /**
@@ -102,13 +109,8 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        $course = Course::findOrfail($id);
-        
-        //Eliminamos la imagen del servidor
-        \Storage::delete('public/courses/' . $course->picture);
-        
-        $course->delete();
-
-        return new CourseResource($course);
+        $status = Status::findOrfail($id);
+        $status->delete();
+        return new StatusResource($status);
     }
 }
